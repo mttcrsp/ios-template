@@ -1,0 +1,70 @@
+name: Template
+
+options:
+  tabWidth: 2
+  indentWidth: 2
+  createIntermediateGroups: true
+  bundleIdPrefix: com.owner.template
+  deploymentTarget:
+    iOS: '10.0'
+
+settings:
+  SWIFT_TREAT_WARNINGS_AS_ERRORS: 'YES'
+
+targets:
+  Template:
+    type: application
+    platform: iOS
+    sources:
+    - Sources
+    - Resources
+    scheme:
+      gatherCoverageData: true
+      testTargets:
+        - name: Tests
+          randomExecutionOrder: true
+        - name: UITests
+          randomExecutionOrder: true
+    postbuildScripts:
+    - script: swiftformat .
+    settings:
+      base:
+        ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES: "$(inherited)"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        CURRENT_PROJECT_VERSION: 1
+        DEBUG_INFORMATION_FORMAT: dwarf-with-dsym
+        DEVELOPMENT_TEAM: TEAMID0000
+        INFOPLIST_FILE: Resources/Info.plist
+        MARKETING_VERSION: 1.0.0
+        PRODUCT_BUNDLE_IDENTIFIER: com.owner.template
+        PRODUCT_NAME: "$(TARGET_NAME)"
+        PRODUCT_MODULE_NAME: Template
+        TARGETED_DEVICE_FAMILY: "1"
+        VERSIONING_SYSTEM: apple-generic
+
+  Tests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+    - Tests
+    dependencies:
+    - target: Template
+    postbuildScripts:
+    - script: swiftformat .
+    settings:
+      INFOPLIST_FILE: Tests/Resources/Info.plist
+      ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES: "$(inherited)"
+      TEST_HOST: "$(BUILT_PRODUCTS_DIR)/Template.app/Template"
+
+  UITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+    - UITests
+    dependencies:
+    - target: Template
+    postbuildScripts:
+    - script: swiftformat .
+    settings:
+      base:
+        INFOPLIST_FILE: UITests/Resources/Info.plist
